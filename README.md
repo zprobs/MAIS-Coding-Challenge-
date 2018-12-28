@@ -1,2 +1,2 @@
 # MAIS-Coding-Challenge-
-For the MAIS Application process 
+For the MAIS 202 Application process 
