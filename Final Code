@@ -1,0 +1,37 @@
+"""This code will calculate the average interest rates on loans for various sectors using the data provided in data.csv
+ and dispay the results in a bar graph."""
+
+import csv 
+import matplotlib.pyplot as plt
+
+with open('data.csv') as file:
+    data = csv.reader(file)
+    purposes_int = {}
+    purposes_count = {}
+
+    next(data)
+    
+    for row in data:
+        if row[16] not in purposes_int.keys():
+            purposes_int[row[16]] = float(row[5])
+            purposes_count[row[16]] = 1
+        else:
+            rates = purposes_int[row[16]]
+            rates += float(row[5])
+            purposes_int[row[16]] = rates 
+
+            counts = purposes_count[row[16]]
+            counts += 1 
+            purposes_count[row[16]] = counts
+    file.close()
+
+purposes_avg = {key: purposes_int[key] / purposes_count[key] for key in purposes_int}
+
+plt.bar(range(len(purposes_avg)), list(purposes_avg.values()))
+plt.xticks(range(len(purposes_avg)), list(purposes_avg.keys()))
+plt.tick_params(axis='x', which='major', labelsize=9, pad=3.5, labelrotation=15)
+plt.xlabel('Purpose')
+plt.ylabel('Average Interest Rate (%)')
+plt.title('Average Loan Rates')
+
+plt.show()
